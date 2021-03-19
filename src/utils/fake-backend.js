@@ -1,4 +1,4 @@
-let users = JSON.parse(localStorage.getItem("users"));
+let users = JSON.parse(localStorage.getItem("users")) || [];
 
 export const configureFakeBackend = () => {
   let realFetch = window.fetch;
@@ -6,7 +6,6 @@ export const configureFakeBackend = () => {
     const { method, headers } = opts;
     const body = opts.body && JSON.parse(opts?.body);
     return new Promise((resolve, reject) => {
-      setTimeout(handleRoute, 500);
       const handleRoute = () => {
         switch (true) {
           case url.endsWith("/users/authenticate") && method === "POST":
@@ -23,6 +22,7 @@ export const configureFakeBackend = () => {
               .catch((error) => reject(error));
         }
       };
+      setTimeout(handleRoute, 500);
       const authenticate = () => {
         const { username, password } = body;
         const user = users.find(
