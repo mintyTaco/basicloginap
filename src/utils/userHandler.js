@@ -1,5 +1,6 @@
-export const logout = () => localStorage.removeItem("user");
+const logout = () => localStorage.removeItem("user");
 //TODO WIP
+
 const handleResponse = (response) => {
   return response.text().then((text) => {
     const data = text && JSON.parse(text);
@@ -14,7 +15,7 @@ const handleResponse = (response) => {
     return data;
   });
 };
-export const register = (user) => {
+const register = (user) => {
   //TODO  use a function to return resp opts maybe?
   const requestOptions = {
     method: "POST",
@@ -25,7 +26,7 @@ export const register = (user) => {
   };
   return fetch(`/users/register`, requestOptions).then(handleResponse);
 };
-export const login = (username, password) => {
+const login = (username, password) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -37,6 +38,13 @@ export const login = (username, password) => {
     .then(handleResponse)
     .then((user) => {
       localStorage.setItem("user", JSON.stringify(user));
+
       return user;
     });
+};
+
+export const userServiceHandler = {
+  login,
+  logout,
+  register,
 };

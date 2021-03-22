@@ -1,4 +1,11 @@
-let users = JSON.parse(localStorage.getItem("users")) || [];
+const usr = {
+  id: 0,
+  username: "q",
+  firstName: "q",
+  lastName: "q",
+  token: "fakeJWTtoken",
+};
+let users = JSON.parse(localStorage.getItem("users")) || [usr];
 
 export const configureFakeBackend = () => {
   let realFetch = window.fetch;
