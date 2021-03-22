@@ -5,9 +5,17 @@ import {
   Route,
   Link
 } from "react-router-dom";
+
 import Login from "./components/login"
 import Register from "./components/register"
 import Home from "./components/home"
+import PrivateRoute from "./components/routes/private_route"
+import PublicRoute from "./components/routes/public_route"
+import  "./App.css";
+
+export const isLogin = () => {
+    return false;
+}
 
 function App() {
     return (
@@ -22,17 +30,9 @@ function App() {
                     </ul>
 
                     <Switch>
-                        <Route path="/login">
-                            <Login />
-                        </Route>
-                        
-                        <Route path="/register">
-                            <Register />
-                        </Route>
-                        
-                        <Route path="/">
-                            <Home />
-                        </Route>
+                        <PublicRoute component={Login} path="/login" exact/>
+                        <PublicRoute component={Register} path="/register" exact/>
+                        <PrivateRoute component={Home} path="/" exact/>
                     </Switch>
                 </div>
             </Router>
