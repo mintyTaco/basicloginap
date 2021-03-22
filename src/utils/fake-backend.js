@@ -1,4 +1,11 @@
-let users = JSON.parse(localStorage.getItem("users")) || [];
+const usr = {
+  id: 0,
+  username: "q",
+  firstName: "q",
+  lastName: "q",
+  token: "fakeJWTtoken",
+};
+let users = JSON.parse(localStorage.getItem("users")) || [usr];
 
 export const configureFakeBackend = () => {
   let realFetch = window.fetch;
@@ -25,9 +32,11 @@ export const configureFakeBackend = () => {
       setTimeout(handleRoute, 500);
       const authenticate = () => {
         const { username, password } = body;
+
         const user = users.find(
           (x) => x.username === username && x.password === password
         );
+
         if (!user) return error("Username or password is incorrect!");
         return ok({
           id: user.id,
