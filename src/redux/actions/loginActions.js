@@ -8,7 +8,6 @@ const logout = () => {
   return { type: userConstants.LOGOUT };
 };
 const login = (username, password, from, history) => {
-  console.log("LOGGING IN ");
   const success = (user) => {
     return { type: userConstants.LOGIN_SUCCESS, user };
   };
