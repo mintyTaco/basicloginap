@@ -6,10 +6,11 @@ import {
   Paper,
   TextField,
 } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoginActions } from "../redux/actions/loginActions";
 import { useHistory } from "react-router";
+import { alertActions } from "../redux/actions/alertActions";
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(6),
@@ -19,31 +20,34 @@ const useStyles = makeStyles((theme) => ({
 export const Login = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
   });
+  const alert = useSelector((state) => state.alert);
   const loggingIn = useSelector((state) => state.authentication.loggingIn);
   const { username, password } = inputs;
   const [submitted, setSubmitted] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setInputs((inputs) => ({ ...inputs, [name]: value }));
   };
-  const history = useHistory();
+
+  useEffect(() => {
+    history.listen((location, action) => {
+      dispatch(alertActions.clear());
+    });
+  }, []);
   useEffect(() => {
     dispatch(userLoginActions.logout());
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     setSubmitted(true);
-
     if (username && password) {
       console.log("Handle submit", username, password);
-
       dispatch(
         userLoginActions.login(username, password, { pathname: "/" }, history)
       );
@@ -52,6 +56,7 @@ export const Login = () => {
   return (
     <Container className={classes.container} maxWidth="xs">
       <Paper variant={"outlined"}>
+        {alert.message && <div>{`${alert.message}`}</div>}
         <form name="form" onSubmit={handleSubmit}>
           <Grid container spacing={6}>
             <Grid item xs={12}>
