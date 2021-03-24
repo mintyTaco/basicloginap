@@ -1,5 +1,6 @@
 import { userConstants } from "./constants";
 import { userServiceHandler } from "../../utils/userHandler";
+import { alertActions } from "./alertActions";
 const request = (user) => {
   return { type: userConstants.LOGIN_REQUEST, user };
 };
@@ -23,6 +24,7 @@ const login = (username, password, from, history) => {
       },
       (error) => {
         dispatch(failure(error.toString()));
+        dispatch(alertActions.error(error.toString()));
       }
     );
   };
