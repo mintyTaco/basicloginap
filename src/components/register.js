@@ -62,6 +62,14 @@ export const Register = () => {
           setSubmitting(false);
           // alert(JSON.stringify(values, null, 2));
         }, 500);
+        
+        let arr = []
+        
+        let oldStorage = JSON.parse(localStorage.getItem('users'))
+        arr.push(oldStorage)
+        arr.push(JSON.stringify(values))
+        localStorage.setItem('users', arr);
+
         dispatch(
           userRegisterActions.register(values, { pathname: "/" }, history)
         );        
