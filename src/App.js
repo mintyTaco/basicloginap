@@ -7,6 +7,7 @@ import Home from "./components/home";
 import PrivateRoute from "./components/routes/private_route";
 import PublicRoute from "./components/routes/public_route";
 import "./App.css";
+import { useSelector } from "react-redux";
 
 export const isLogin = () => {
   const isUserLoggedIn = localStorage.getItem("user") !== null;
@@ -15,9 +16,15 @@ export const isLogin = () => {
 };
 
 function App() {
+  const alert = useSelector((state) => state.alert);
+
   return (
     <div className="App">
       {"Hello world"}
+      {alert.message && (
+        <div className={`alert ${alert.type}`}>{alert.message}</div>
+      )}
+
       <Router>
         <div>
           <ul>

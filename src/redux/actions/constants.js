@@ -8,3 +8,8 @@ export const userConstants = {
   REGISTER_SUCCESS: "REGISTER_SUCCESS",
   REGISTER_FAILURE: "REGISTER_FAILURE",
 };
+export const alertConstants = {
+  SUCCESS: "ALERT_SUCCESS",
+  ERROR: "ALERT_ERROR",
+  CLEAR: "ALERT_CLEAR",
+};

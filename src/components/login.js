@@ -96,7 +96,11 @@ export const Login = () => {
               >
                 Log in
               </Button>
-              <Button color="secondary" type="submit" variant="contained">
+              <Button
+                color="secondary"
+                onClick={() => history.push("/register")}
+                variant="contained"
+              >
                 Register
               </Button>
             </Grid>
