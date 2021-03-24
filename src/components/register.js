@@ -1,22 +1,22 @@
 
+import React from "react";
+import { useDispatch } from "react-redux";
+import { userRegisterActions } from "../redux/actions/registerActions";
+import { useHistory } from "react-router";
+
 import {Formik, Form, Field} from 'formik';
 
 import {
-  fieldToTextField,
-  TextFieldProps,
-  Select,
-  Switch,
+  TextField,
 } from 'formik-material-ui';
 
-import React, { useState, useEffect } from "react";
-import { Button, Container, Grid, Paper, TextField } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { userRegisterActions } from "../redux/actions/registerActions";
+import { Button, Container, Grid, Paper } from "@material-ui/core";
+
+const isNumber = (value) => !isNaN(value)
+
 export const Register = () => {
 
   const dispatch = useDispatch();
-  const [inputs, setInputs] = useState({});
   const history = useHistory();
 
   return (
@@ -29,40 +29,45 @@ export const Register = () => {
         website: '',
         retypePassword: ''
       }}
-      // validate={ values => {
-      //   const errors = {};
-      //   if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)){
-      //     errors.email = 'invalid email';
-      //   }
-      //   // if(values.password !== values.retypePassword){
-      //   //   alert('password not matching')
-      //   // }
-      //   return errors;
-      // }}
-      onSubmit={(values, {setSubmitting}) => {
-        // setTimeout(() => {
-        //   setSubmitting(false);
-        //   alert(JSON.stringify(values, null, 2));
-        // }, 500);
-        setSubmitting(false);
-        setInputs(values);
-        if (values.password != values.retypePassword){
-          alert('passwords are not matching');
+      validate={ values => {
+        const errors = {};
+        if (!values.email) {
+          errors.email = 'Required';
         }
-        console.log(values.username)
-        if (values.username && values.password && values.email) {
-          dispatch(
-            userRegisterActions.register(values, { pathname: "/" }, history)
-          );
+        else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)){
+          errors.email = 'invalid email';
         }
-        else{
-          alert('please fill the required data')
+        if (!values.password) {
+          errors.password = 'Required';
         }
+        else if(!values.retypePassword){
+          errors.retypePassword = 'Required';
+        }
+        else if(values.password !== values.retypePassword){
+          errors.password = 'Passwors are not matching';
+          errors.retypePassword = 'Passwors are not matching';
+        }
+        if (values.phone && !isNumber(values.phone))
+          errors.phone = 'invalid phone number'
+        return errors;
+      }}
 
+      validator={() => ({})}
+
+      onSubmit={(values, {setSubmitting}) => {
+        
+        console.log(values)
+        
+        setTimeout(() => {
+          setSubmitting(false);
+          // alert(JSON.stringify(values, null, 2));
+        }, 500);
+        dispatch(
+          userRegisterActions.register(values, { pathname: "/" }, history)
+        );        
       }}
     >
       {({submitForm, isSubmitting, touched, errors}) => (
-      
       <Container  maxWidth="xs">
         <Paper variant={"outlined"}>
           <Form >
@@ -72,16 +77,17 @@ export const Register = () => {
                   <Grid item xs={12}>
                     <Field
                       required
-                      label="Username"
                       component={TextField}
+                      label="Username"
                       name="username"
+                      type="username"
                       size="small"
                       variant="outlined"
                     />
                   </Grid>
                   
                   <Grid item xs={12}>
-                    <Field
+                  <Field
                       required
                       label="Password"
                       component={TextField}
@@ -90,8 +96,7 @@ export const Register = () => {
                       type="password"
                       variant="outlined"
                     />
-                  </Grid>
-
+                </Grid>
                   <Grid item xs={12}>
                     <Field
                       component={TextField}
@@ -122,7 +127,7 @@ export const Register = () => {
                       required
                       label="Re-type Password"
                       component={TextField}
-                      name="password"
+                      name="retypePassword"
                       size="small"
                       type="password"
                       variant="outlined"
@@ -148,7 +153,6 @@ export const Register = () => {
                   justifyContent: "space-around",
                 }}
               >
-
                 <Grid item xs={6}>
                   <Button color="primary" variant="contained" href="\login">
                     Back
@@ -158,7 +162,6 @@ export const Register = () => {
                 <Grid item xs={6}>
                   <Button color="secondary" variant="contained" disabled={isSubmitting} onClick={submitForm}>
                     Create New Accont
-                    
                   </Button>
                 </Grid>
 
@@ -167,7 +170,6 @@ export const Register = () => {
           </Form>
         </Paper>
       </Container> 
-
     )}
     </Formik>
   );
