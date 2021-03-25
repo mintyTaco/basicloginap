@@ -1,8 +1,9 @@
+//TODO remove once the register workflow is implemented
 const usr = {
   id: 0,
-  username: "q",
-  firstName: "q",
-  lastName: "q",
+  username: "e",
+  firstName: "e",
+  lastName: "e",
   token: "fakeJWTtoken",
 };
 let users = JSON.parse(localStorage.getItem("users")) || [usr];
