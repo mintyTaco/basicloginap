@@ -11,18 +11,18 @@ export const Login = () => {
   const history = useHistory();
   const alert = useSelector((state) => state.alert);
   const loggingIn = useSelector((state) => state.authentication.loggingIn);
-  useEffect(() => {
-    history.listen((location, action) => {
-      dispatch(alertActions.clear());
-    });
-  }, []);
+  // useEffect(() => {
+  //   history.listen((location, action) => {
+  //     dispatch(alertActions.clear());
+  //   });
+  // }, []);
   useEffect(() => {
     dispatch(userLoginActions.logout());
   }, []);
 
   return (
     <>
-      {alert.message && <div>{`${alert.message}`}</div>}
+      {/*{alert.message && <div>{`${alert.message}`}</div>}*/}
       <LoginForm />
     </>
   );

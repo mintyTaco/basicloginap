@@ -6,8 +6,9 @@ const usr = {
   lastName: "e",
   token: "fakeJWTtoken",
 };
-let users = JSON.parse(localStorage.getItem("users")) || [usr];
 
+const storedUsers = localStorage.getItem("users");
+let users = storedUsers !== null ? JSON.parse(storedUsers) : [];
 export const configureFakeBackend = () => {
   let realFetch = window.fetch;
   window.fetch = (url, opts) => {
@@ -50,6 +51,7 @@ export const configureFakeBackend = () => {
 
       const register = () => {
         const user = body;
+
         if (users.find((x) => x.username === user.username)) {
           return error(`Username ${user.username} is already taken!`);
         }

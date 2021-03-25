@@ -24,7 +24,7 @@ const login = (username, password, from, history) => {
       },
       (error) => {
         dispatch(failure(error.toString()));
-        dispatch(alertActions.error(error.toString()));
+        // dispatch(alertActions.error(error.toString()));
       }
     );
   };

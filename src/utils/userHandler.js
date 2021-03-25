@@ -22,7 +22,7 @@ const register = (user) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ user }),
+    body: JSON.stringify(user),
   };
   return fetch(`/users/register`, requestOptions).then(handleResponse);
 };
