@@ -63,7 +63,6 @@ export const RegisterForm = () => {
   const getConfirmPasswordLabel = (error) => error ?? "Confirm Password";
   const getEmailLabel = (error) => error ?? "Email";
   
-
   const validate = (values) => {
     let errors = {};
     if (!values.email) {
@@ -104,105 +103,114 @@ export const RegisterForm = () => {
         <form onSubmit={formik.handleSubmit} className={classes.form}>
         
         <Container maxWidth="xs">
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <TextField
-                  style={{ paddingBottom: "1rem" }}
-                  label={getUserNameLabel(formik.errors.username)}
-                  onChange={formik.handleChange}
-                  error={!!formik.errors.username}
-                  name="username"
-                  value={formik.values.username}
-                  size="small"
-                  variant="outlined"
-                />
-                <TextField
-                  style={{ paddingBottom: "1rem" }}
-                  error={!!formik.errors.password}
-                  value={formik.values.password}
-                  label={getPasswordLabel(formik.errors.password)}
-                  type={"password"}
-                  onChange={formik.handleChange}
-                  name="password"
-                  size="small"
-                  variant="outlined"
-                />
-                
-                <TextField
-                  style={{ paddingBottom: "1rem" }}
-                  value={formik.values.website}
-                  label="website"
-                  type={"text"}
-                  onChange={formik.handleChange}
-                  name="website"
-                  size="small"
-                  variant="outlined"
-                />
+            <Grid container spacing={1}>
+                <Grid item xs={6}>
+                  <TextField
+                    style={{ paddingBottom: "1rem" }}
+                    label={"Username"}
+                    helperText={formik.errors.username}
+                    onChange={formik.handleChange}
+                    error={!!formik.errors.username}
+                    name="username"
+                    value={formik.values.username}
+                    size="small"
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    label={"email"}
+                    style={{ paddingBottom: "1rem" }}
+                    error={!!formik.errors.email}
+                    helperText={formik.errors.email}
+                    value={formik.values.email}
+                    type={"text"}
+                    onChange={formik.handleChange}
+                    name="email"
+                    size="small"
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    style={{ paddingBottom: "1rem" }}
+                    error={!!formik.errors.password}
+                    helperText={formik.errors.password}
+                    value={formik.values.password}
+                    label={'password'}
+                    type={"password"}
+                    onChange={formik.handleChange}
+                    name="password"
+                    size="small"
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    style={{ paddingBottom: "1rem" }}
+                    error={!!formik.errors.confirmPassword}
+                    value={formik.values.confirmPassword}
+                    label={"Confirm Password"}
+                    helperText={formik.errors.confirmPassword}
+                    type={"password"}
+                    onChange={formik.handleChange}
+                    name="confirmPassword"
+                    size="small"
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    style={{ paddingBottom: "1rem" }}
+                    value={formik.values.website}
+                    label="website"
+                    type={"text"}
+                    onChange={formik.handleChange}
+                    name="website"
+                    size="small"
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    style={{ paddingBottom: "1rem" }}
+                    error={!!formik.errors.phone}
+                    value={formik.values.phone}
+                    label="phone number"
+                    type={"phone"}
+                    onChange={formik.handleChange}
+                    name="phone"
+                    size="small"
+                    variant="outlined"
+                  />    
+                </Grid>
               </Grid>
-
-              <Grid item xs={6}>
-              <TextField
-                  label={getEmailLabel(formik.errors.email)}
-                  style={{ paddingBottom: "1rem" }}
-                  error={!!formik.errors.email}
-                  value={formik.values.email}
-                  type={"text"}
-                  onChange={formik.handleChange}
-                  name="email"
-                  size="small"
-                  variant="outlined"
-                />
-                <TextField
-                  style={{ paddingBottom: "1rem" }}
-                  error={!!formik.errors.confirmPassword}
-                  value={formik.values.confirmPassword}
-                  label={getConfirmPasswordLabel(formik.errors.confirmPassword)}
-                  type={"password"}
-                  onChange={formik.handleChange}
-                  name="confirmPassword"
-                  size="small"
-                  variant="outlined"
-                />
-                <TextField
-                  style={{ paddingBottom: "1rem" }}
-                  error={!!formik.values.phone}
-                  value={formik.values.phone}
-                  label="phone number"
-                  type={"phone"}
-                  onChange={formik.handleChange}
-                  name="phone"
-                  size="small"
-                  variant="outlined"
-                />    
-              </Grid>
-            </Grid>
         </Container>
-
-          <div
+        <div
             style={{
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-around",
             }}
+        >
+          <Button
+            color="primary"
+            type="submit"
+            variant="contained"
+            className={classes.submit}
           >
-            <Button
-              color="primary"
-              type="submit"
-              variant="contained"
-              className={classes.submit}
-            >
-              REGISTER
-            </Button>
-            <Button
-              color="secondary"
-              onClick={() => {
-                history.push("/register");
-              }}
-              variant="contained"
-              className={classes.submit}
-            >
-              Register
-            </Button>
+            REGISTER
+          </Button>
+          <Button
+            color="secondary"
+            onClick={() => {
+              history.push("/login");
+            }}
+            variant="contained"
+            className={classes.submit}
+          >
+            Back
+          </Button>
           </div>
         </form>
       </div>
