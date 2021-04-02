@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { userRegisterActions } from "../../redux/actions/registerActions";
 import { useFormik } from "formik";
-import {React, useState} from "react";
+import {React} from "react";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -44,24 +44,9 @@ export const RegisterForm = () => {
     confirmPassword: "",
   };
 
-  const [userLabel, setUserLabel] = useState("Username")
-
-  const [labels, setLabels] = useState({
-    username: 'Username', 
-    password: 'Password', 
-    confirmPassword: 'Confirm Password', 
-    email: 'Email', 
-    phone: 'Phone number'
-  }) 
-  
   const onSubmit = (values) => {
     dispatch(userRegisterActions.register(values, "/", history));
   };
-
-  const getUserNameLabel = (error) => error ?? "Username";
-  const getPasswordLabel = (error) => error ?? "Password";
-  const getConfirmPasswordLabel = (error) => error ?? "Confirm Password";
-  const getEmailLabel = (error) => error ?? "Email";
   
   const validate = (values) => {
     let errors = {};
