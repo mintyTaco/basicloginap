@@ -1,10 +1,11 @@
 import { userConstants } from "./constants";
 import { userServiceHandler } from "../../utils/userHandler";
+import {alertActions} from "../actions/alertActions"
 const request = (user) => {
   return { type: userConstants.REGISTER_REQUEST, user };
 };
 
-const register = (user, path, history) => {
+function register(user, path, history) {
   const success = (user) => {
     return { type: userConstants.REGISTER_SUCCESS, user };
   };
@@ -12,16 +13,20 @@ const register = (user, path, history) => {
     return { type: userConstants.REGISTER_FAILURE, error };
   };
   return (dispatch) => {
-    dispatch(request({ user }));
+    dispatch(request(user));
+
     userServiceHandler.register(user).then(
       (user) => {
-        dispatch(success(user));
+        dispatch(success());
         history.push(path);
+         dispatch(alertActions.success("Registration successful"));
       },
       (error) => {
         dispatch(failure(error.toString()));
+          dispatch(alertActions.error(error.toString()));
       }
     );
   };
-};
+}
+
 export const userRegisterActions = { register };
