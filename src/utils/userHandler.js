@@ -1,3 +1,5 @@
+import { authHeader } from "./authorization-header";
+
 const logout = () => localStorage.removeItem("user");
 //TODO WIP
 
@@ -42,9 +44,53 @@ const login = (username, password) => {
       return user;
     });
 };
+const getAll = () => {
+  const requestOptions = {
+    method: "GET",
+    headers: authHeader(),
+  };
+
+  return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
+};
+const _delete = (id) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: authHeader(),
+  };
+
+  return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(
+    handleResponse
+  );
+};
+const getById = (id) => {
+  const requestOptions = {
+    method: "GET",
+    headers: authHeader(),
+  };
+
+  return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(
+    handleResponse
+  );
+};
+
+const update = (user) => {
+  const requestOptions = {
+    method: "PUT",
+    headers: { ...authHeader(), "Content-Type": "application/json" },
+    body: JSON.stringify(user),
+  };
+
+  return fetch(`${config.apiUrl}/users/${user.id}`, requestOptions).then(
+    handleResponse
+  );
+};
 
 export const userServiceHandler = {
   login,
   logout,
   register,
+  getAll,
+  update,
+  _delete,
+  getById,
 };
