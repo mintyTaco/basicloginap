@@ -50,7 +50,7 @@ const getAll = () => {
     headers: authHeader(),
   };
 
-  return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
+  return fetch(`/users`, requestOptions).then(handleResponse);
 };
 const _delete = (id) => {
   const requestOptions = {
@@ -58,7 +58,7 @@ const _delete = (id) => {
     headers: authHeader(),
   };
 
-  return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(
+  return fetch(`/users/${id}`, requestOptions).then(
     handleResponse
   );
 };
@@ -68,7 +68,7 @@ const getById = (id) => {
     headers: authHeader(),
   };
 
-  return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(
+  return fetch(`/users/${id}`, requestOptions).then(
     handleResponse
   );
 };
@@ -80,7 +80,7 @@ const update = (user) => {
     body: JSON.stringify(user),
   };
 
-  return fetch(`${config.apiUrl}/users/${user.id}`, requestOptions).then(
+  return fetch(`/users/${user.id}`, requestOptions).then(
     handleResponse
   );
 };
