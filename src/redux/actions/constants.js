@@ -13,3 +13,8 @@ export const alertConstants = {
   ERROR: "ALERT_ERROR",
   CLEAR: "ALERT_CLEAR",
 };
+
+export const crudConstants = {
+  GET_USERS_SUCCESS : "GET_USERS_SUCCESS", 
+  GET_USERS_FAILED : "GET_USERS_FAILED",
+};
