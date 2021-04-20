@@ -18,7 +18,7 @@ export const AlertNotification = () => {
         history.listen((location, action) => {
           dispatch(alertActions.clear());
         });
-      }, []);
+      }, [history, dispatch]);
 
     const handleClose = () => {
         setOpen(false);
@@ -30,10 +30,10 @@ export const AlertNotification = () => {
     }, [alert.message])
 
     const handleSeverity = () => {
-        if(alert.type == 'alert-success'){
+        if(alert.type === 'alert-success'){
             return 'success';
         }
-        if(alert.type == 'alert-danger'){
+        if(alert.type === 'alert-danger'){
           return 'error';
         }
     }

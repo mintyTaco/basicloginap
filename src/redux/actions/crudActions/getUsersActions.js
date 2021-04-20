@@ -2,15 +2,23 @@ import { crudConstants } from "../constants";
 import { userServiceHandler } from "../../../utils/userHandler";
 import { alertActions } from "../alertActions";
 
-export const getAll = () => {
-  const success = (users) => {
+export const getAllActions = () => {
+  
+  const request = (users) => {
+    return { type: crudConstants.GET_USERS_PENDING, users };
+  };
+  const success = (users) => { 
     return { type: crudConstants.GET_USERS_SUCCESS, users };
   };
   const failure = (error) => {
     return { type: crudConstants.GET_USERS_FAILED, error };
   };
   return (dispatch) => {
-    userServiceHandler.getAll().then(
+    
+    dispatch(request)
+
+    userServiceHandler.getAll()
+    .then(
       (users) => {
         dispatch(success(users));
       },
@@ -21,4 +29,4 @@ export const getAll = () => {
     );
   };
 };
-export const getAllActions = { getAll };
+export default getAllActions;

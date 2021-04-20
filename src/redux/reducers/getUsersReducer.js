@@ -1,17 +1,22 @@
 import {crudConstants} from "../actions/constants"
 
-let users = JSON.parse(localStorage.getItem("users"));
-const initialState = users ? { loggedIn: true, users } : {};
+const initialState = {
+  isPending: false,
+  users: JSON.parse(localStorage.getItem("users")),
+  error: ""
+}
 
-export const getAllUsers = (state = initialState, action) => {
+export const getAllUsers = (state = initialState, action ) => {
     
+    console.log(initialState.users, "++++");
+
     switch (action.type) {
+        case crudConstants.GET_USERS_PENDING:
+            return Object.assign({}, state, {isPending: true})
         case crudConstants.GET_USERS_SUCCESS:
-          return {
-              users: action.users
-          };
+          return Object.assign({}, state, {users: action.users, isPanding: false})
         case crudConstants.GET_USERS_FAILED:
-          return {};
+          return Object.assign({}, state, {error: action.error, isPanding: false})
         default:
           return state;
       }

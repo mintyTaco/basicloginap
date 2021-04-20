@@ -17,4 +17,5 @@ export const alertConstants = {
 export const crudConstants = {
   GET_USERS_SUCCESS : "GET_USERS_SUCCESS", 
   GET_USERS_FAILED : "GET_USERS_FAILED",
+  GET_USERS_PENDING : "GET_USERS_PANDING"
 };

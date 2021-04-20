@@ -1,7 +1,7 @@
-import {React, useState} from "react";
+import {React, useEffect, useState} from "react";
 import { useSelector } from "react-redux";
-// import { useDispatch } from "react-redux";
-// import {getAllActions} from "../../redux/actions/crudActions/getUsersActions"
+import { useDispatch } from "react-redux";
+import getAllActions from "../../../redux/actions/crudActions/getUsersActions"
 
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -67,18 +67,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const UsersTable = () => {
 
-  const users = useSelector((state) => state.getAllUsers)
-  console.log(Object.keys(users.users[1]))
+export const UsersTable = () => {
 
   const classes = useStyles();
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("calories");
+  const [orderBy, setOrderBy] = useState("Username");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const dispatch = useDispatch();
+
+  const users = useSelector((state) => state.getAllUsers.users)
+  const isPending = useSelector((state) => state.getAllUsers.isPending)
+
+  useEffect(() => {
+    dispatch(getAllActions())
+  }, [dispatch])
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -88,7 +94,7 @@ export const UsersTable = () => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users.users.map((n) => n.name);
+      const newSelecteds = users.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -99,17 +105,24 @@ export const UsersTable = () => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
+    switch(true){
+      case (selectedIndex === -1):
+        newSelected = newSelected.concat(selected, name);
+        break;
+      case (selectedIndex === 0):
+        newSelected = newSelected.concat(selected.slice(1));
+        break;
+      case (selectedIndex === selected.length - 1):
+        newSelected = newSelected.concat(selected.slice(0, -1));
+        break;
+      case (selectedIndex > 0):
+        newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1)
+        );
+        break;
+      default:
+        break;
     }
 
     setSelected(newSelected);
@@ -132,7 +145,10 @@ export const UsersTable = () => {
 
   const emptyRows = (list) => rowsPerPage - Math.min(rowsPerPage, list.length - page * rowsPerPage);
 
-  return (
+  return isPending ? 
+    <h1>Loading...</h1>
+    :
+    (
     // TODO: shorter width
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -151,10 +167,10 @@ export const UsersTable = () => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={users.users.length}
+              rowCount={users.length}
             />
             <TableBody>
-              {stableSort(users.users, getComparator(order, orderBy))
+              {stableSort(users, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.username);
@@ -191,7 +207,7 @@ export const UsersTable = () => {
                     </TableRow>
                   );
                 })}
-              {emptyRows(users.users) > 0 && (
+              {emptyRows(users) > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
@@ -202,7 +218,7 @@ export const UsersTable = () => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={users.users.length}
+          count={users.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}

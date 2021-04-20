@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
+// import { useSelector } from "react-redux";
 import { userLoginActions } from "../../redux/actions/loginActions";
 import { useHistory } from "react-router";
 import { alertActions } from "../../redux/actions/alertActions";
@@ -11,20 +12,18 @@ import AlertNotification from "../alert/Alert";
 export const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const alert = useSelector((state) => state.alert);
-  const loggingIn = useSelector((state) => state.authentication.loggingIn);
+  // const alert = useSelector((state) => state.alert);
+  // const loggingIn = useSelector((state) => state.authentication.loggingIn);
 
   useEffect(() => {
-    console.log(alert, ' useEffect');
     history.listen((location, action) => {
       dispatch(alertActions.clear());
     });
-  }, []);
+  }, [dispatch, history]);
 
   useEffect(() => {
-    console.log(alert, ' logout')
     dispatch(userLoginActions.logout());
-  }, []);
+  }, [dispatch]);
 
   return (
       <div>
